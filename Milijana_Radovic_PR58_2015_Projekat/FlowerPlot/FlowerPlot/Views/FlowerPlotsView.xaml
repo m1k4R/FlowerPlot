@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="FlowerPlot.Views.FlowerPlotsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlowerPlot.Views"
+             xmlns:vml="clr-namespace:FlowerPlot.VML"
+             vml:ViewModelLocator.AutoHookedUpViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="489" d:DesignWidth="972">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="269*"/>
+            <ColumnDefinition Width="217*"/>
+        </Grid.ColumnDefinitions>
+        <Rectangle Name="blackRtg" Fill="Black" Opacity="0.7" HorizontalAlignment="Left" Height="489" Stroke="Black" VerticalAlignment="Top" Width="972" Grid.ColumnSpan="2"/>
+        <Button Name="btnChange" Command="{Binding ChangeCommand}" Content="Change" HorizontalAlignment="Left" Margin="398,429,0,0" VerticalAlignment="Top" Width="144" Height="50" Grid.ColumnSpan="2"/>
+        <DataGrid Name="gridPlots" AutoGenerateColumns="False" IsReadOnly="True" RowBackground="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" ItemsSource="{Binding FlowerPlots}" SelectedItem="{Binding SelectedFlowerPlot}" Background="#4C000000" Height="328" Margin="10,80,10,81" Width="952" Foreground="Black" FontSize="16" Grid.ColumnSpan="2">
+
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="#FF3A803D"/>
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                    <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                </Style>
+            </DataGrid.CellStyle>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Stage" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Image Source="{Binding StageImage}" Stretch="Uniform" Height="80"/>
+                                <Label Content="{Binding Stage}" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Area" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Area}" Height="70" Margin="100,0,0,50" Foreground="White" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                                <Label Content="m2" Height="70" Margin="0,0,0,50" Foreground="White" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Flower" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="{Binding Flower.Name}" Height="70" Foreground="White" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!--<DataGridTextColumn Header="Area" Binding="{Binding Area}" Width="*" Foreground="White" FontSize="18"/>-->
+                <!--<DataGridTextColumn Header="Flower" Binding="{Binding Path=Flower.Name}" Width="*" FontSize="18" Foreground="White"/>-->
+                <DataGridTemplateColumn Header="Soil type" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Clay  : " Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="{Binding Path=Soil.ClayPercent}" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="%" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Sand : " Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="{Binding Path=Soil.SandPercent}" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="%" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Silt    : " Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="{Binding Path=Soil.SiltPercent}" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                    <Label Content="%" Foreground="White" FontSize="18" HorizontalContentAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnSearch" Content="Search" Command="{Binding SearchCommand}" HorizontalAlignment="Left" Margin="293,10,0,0" VerticalAlignment="Top" Width="51" Height="34"/>
+        <Button x:Name="btnUndo" Content="Undo" Command="{Binding UndoCommand}" HorizontalAlignment="Left" Margin="255,10,0,0" VerticalAlignment="Top" Width="82" Height="34" Grid.Column="1"/>
+        <Button x:Name="btnRedo" Content="Redo" Command="{Binding RedoCommand}" HorizontalAlignment="Left" Margin="342,10,0,0" VerticalAlignment="Top" Width="82" Height="34" Grid.Column="1"/>
+        <Button x:Name="btnDuplicate" Content="Duplicate" Command="{Binding DuplicateCommand}" HorizontalAlignment="Left" Margin="181,429,0,0" VerticalAlignment="Top" Width="144" Height="50"/>
+        <Button x:Name="btnDelete" Content="Delete" Command="{Binding DeleteCommand}" HorizontalAlignment="Left" Margin="88,429,0,0" VerticalAlignment="Top" Width="144" Height="50" Grid.Column="1"/>
+        <Label Content="Choose stage : " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontSize="18"/>
+        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding Stages}" SelectedItem="{Binding SelectedStage}" Margin="146,10,0,0" VerticalAlignment="Top" Width="142" FontSize="16" Height="34"/>
+        <Button x:Name="btnBack" Content="Show all" Command="{Binding ShowAllCommand}" HorizontalAlignment="Left" Margin="349,10,0,0" VerticalAlignment="Top" Width="51" Height="34"/>
+
+    </Grid>
+</UserControl>
